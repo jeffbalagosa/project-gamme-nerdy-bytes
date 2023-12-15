@@ -44,6 +44,14 @@ const DeckForm = () => {
     }
   };
 
+  if (!currentUser) {
+    return (
+      <div className="text-center">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="card shadow m-5 p-3 col-6 mx-auto">

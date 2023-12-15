@@ -30,16 +30,6 @@ function Dashboard() {
     getDecks();
   }, []);
 
-  if (!currentUser) {
-    return (
-      <div className="text-center">
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
-
-  CheckIn(currentUser);
-
   return (
     <div className="dashboard-container">
       <div className="d-flex">

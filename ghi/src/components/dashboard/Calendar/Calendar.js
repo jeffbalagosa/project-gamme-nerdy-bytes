@@ -10,6 +10,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useUserContext } from "../../../useContext/UserContext";
 import getStreak from "../../../utils/getStreak";
+import CheckIn from "../../../utils/checkIn";
 import "./Calendar.css";
 
 const Calendar = () => {
@@ -35,6 +36,7 @@ const Calendar = () => {
     getDates();
   }, [currentUser]);
 
+  CheckIn(currentUser);
   const currentStreak = getStreak(dateList, currentUser);
 
   const handleDayClick = (day) => {

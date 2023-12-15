@@ -9,7 +9,7 @@ function UserDecks({ decks, setDecks }) {
   const currentUser = useUserContext();
   const userDecks = decks.filter((deck) => deck.user_id === currentUser.id);
 
-  async function deleteDeck(deck_id) {
+  async function handleDeleteDeck(deck_id) {
     const url = `${process.env.REACT_APP_API_HOST}/api/deck/${deck_id}`;
     const fetchOptions = {
       credentials: "include",
@@ -22,6 +22,14 @@ function UserDecks({ decks, setDecks }) {
     } else {
       console.log("Error deleting deck");
     }
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="text-center">
+        <h1>Loading...</h1>
+      </div>
+    );
   }
 
   return (
@@ -64,7 +72,7 @@ function UserDecks({ decks, setDecks }) {
                     </button>
                     <TrashIcon
                       className="card-link"
-                      onClick={() => deleteDeck(deck.id)}
+                      onClick={() => handleDeleteDeck(deck.id)}
                       style={{
                         cursor: "pointer",
                         width: "50%",
