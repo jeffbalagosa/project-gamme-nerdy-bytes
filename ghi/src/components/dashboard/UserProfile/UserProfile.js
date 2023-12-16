@@ -5,6 +5,15 @@ import { useUserContext } from "../../../useContext/UserContext";
 function UserProfile() {
   const currentUser = useUserContext();
 
+  if (currentUser === undefined) {
+    return (
+      <>
+        <h1>Loading...</h1>
+      </>
+    );
+  }
+
+  console.log("currentUser", currentUser);
   return (
     <div className="user-profile">
       <div className="profile-content">

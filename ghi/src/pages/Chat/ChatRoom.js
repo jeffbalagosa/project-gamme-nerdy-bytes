@@ -31,8 +31,12 @@ export default function ChatRoom({ onRoomChange }) {
     setInterval(fetchRooms, 60000);
   }, []);
 
-  if (!currentUser) {
-    return null;
+  if (!currentUser === undefined) {
+    return (
+      <>
+        <h1>Loading...</h1>
+      </>
+    );
   }
 
   const handleChange = (e) => setSearchText(e.target.value);

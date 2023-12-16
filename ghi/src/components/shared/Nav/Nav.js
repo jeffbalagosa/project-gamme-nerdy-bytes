@@ -1,25 +1,15 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 import "./Nav.css";
 
 const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  async function logoutUser() {
-    const url = `${process.env.REACT_APP_API_HOST}/token`;
-    const fetchOptions = {
-      credentials: "include",
-      method: "DELETE",
-    };
-    const response = await fetch(url, fetchOptions);
-    if (!response.ok) {
-      console.log("An error occurred during logout");
-    }
-  }
+  const { logout } = useToken();
 
   function handleLogout() {
-    logoutUser();
+    logout();
     setTimeout(() => {
       navigate("/");
     }, 250);

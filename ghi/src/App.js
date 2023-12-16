@@ -41,9 +41,9 @@ function App() {
   return (
     <div className="container">
       <BrowserRouter basename={basename}>
-        <Nav />
         <AuthProvider baseUrl={`${process.env.REACT_APP_API_HOST}`}>
           <UserProvider currentUser={currentUser}>
+            <Nav />
             {currentUser && <ChatFlyover className="Chatflyover"></ChatFlyover>}
             <Routes>
               <Route exact path="/" element={<LoginForm />}></Route>
@@ -65,7 +65,7 @@ function App() {
               <Route
                 exact
                 path="/decks/:deckId/cards/:cardId/edit"
-                element={<EditCard currentUser={currentUser} />}
+                element={<EditCard />}
               ></Route>
               <Route exact path="/:deckId/study" element={<Study />}></Route>
               <Route
@@ -76,7 +76,7 @@ function App() {
               <Route
                 exact
                 path="/decks/:deckId/cards/:cardId/options/:optionId/edit"
-                element={<EditOption currentUser={currentUser} />}
+                element={<EditOption />}
               ></Route>
             </Routes>
           </UserProvider>
