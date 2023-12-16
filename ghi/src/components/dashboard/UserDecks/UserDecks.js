@@ -2,6 +2,7 @@ import React from "react";
 import { useUserContext } from "../../../useContext/UserContext";
 import { useNavigate } from "react-router-dom";
 import TrashIcon from "../../shared/TrashSvg/TrashSvg";
+import CheckIn from "../../../utils/checkIn";
 import "./UserDecks.css";
 
 function UserDecks({ decks, setDecks }) {
@@ -9,12 +10,18 @@ function UserDecks({ decks, setDecks }) {
   const currentUser = useUserContext();
   const userDecks = decks.filter((deck) => deck.user_id === currentUser.id);
 
+  const handleStudyClick = (deck_id) => {
+    navigate(`/${deck_id}/study`);
+    CheckIn(currentUser);
+  };
+
   async function handleDeleteDeck(deck_id) {
     const url = `${process.env.REACT_APP_API_HOST}/api/deck/${deck_id}`;
     const fetchOptions = {
       credentials: "include",
       method: "DELETE",
     };
+
     const response = await fetch(url, fetchOptions);
     if (response.ok) {
       console.log("Deck deleted successfully");
@@ -51,7 +58,7 @@ function UserDecks({ decks, setDecks }) {
                   <div className="d-flex justify-content-between">
                     <button
                       id="btn-study"
-                      onClick={() => navigate(`/${deck.id}/study`)}
+                      onClick={() => handleStudyClick(deck.id)}
                       className="card-link"
                     >
                       Study

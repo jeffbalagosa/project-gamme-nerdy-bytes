@@ -1,7 +1,4 @@
-import { useUserContext } from "../useContext/UserContext";
-
-const CheckIn = async () => {
-  const currentUser = useUserContext();
+const CheckIn = async (currentUser) => {
   const today = new Date().toISOString().slice(0, 10);
 
   const data = {
