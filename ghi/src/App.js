@@ -42,7 +42,10 @@ function App() {
     <div className="container">
       <BrowserRouter basename={basename}>
         <AuthProvider baseUrl={`${process.env.REACT_APP_API_HOST}`}>
-          <UserProvider currentUser={currentUser}>
+          <UserProvider
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          >
             <Nav />
             {currentUser && <ChatFlyover className="Chatflyover"></ChatFlyover>}
             <Routes>
