@@ -25,12 +25,13 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_HOST}/token`, {
-        credentials: "include",
-      });
-      const response = await res.json();
-      if (response.account) {
-        setCurrentUser(response.account);
+      const url = `${process.env.REACT_APP_API_HOST}/token`;
+      const fetchOptions = { credentials: "include" };
+      const response = await fetch(url, fetchOptions);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("data", data);
+        setCurrentUser(data.account);
       }
     };
 

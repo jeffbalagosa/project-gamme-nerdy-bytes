@@ -2,14 +2,17 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import "./Nav.css";
+import { useUserContext } from "../../../useContext/UserContext";
 
 const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useToken();
+  const { setCurrentUser } = useUserContext();
 
   function handleLogout() {
     logout();
+    setCurrentUser(null);
     setTimeout(() => {
       navigate("/");
     }, 250);

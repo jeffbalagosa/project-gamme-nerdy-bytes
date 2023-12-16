@@ -3,9 +3,9 @@ import "./UserProfile.css";
 import { useUserContext } from "../../../useContext/UserContext";
 
 function UserProfile() {
-  const currentUser = useUserContext();
+  const { currentUser } = useUserContext();
 
-  if (currentUser === undefined) {
+  if (currentUser === undefined || currentUser === null) {
     return (
       <>
         <h1>Loading...</h1>
