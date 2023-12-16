@@ -17,13 +17,19 @@ import Calendar from "./components/dashboard/Calendar/Calendar";
 import AddOption from "./pages/CreateOption/AddOption";
 import EditOption from "./pages/EditOption/EditOption";
 import ChatFlyover from "./components/shared/ChatFlyover/ChatFlyover";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
   const [currentUser, setCurrentUser] = useState(undefined);
+  const { token } = useAuthContext();
 
   useEffect(() => {
+    if (!token) {
+      return;
+    }
+    console.log("Effect Hook in App.js Triggered");
     const fetchData = async () => {
       const url = `${process.env.REACT_APP_API_HOST}/token`;
       const fetchOptions = { credentials: "include" };
@@ -36,9 +42,10 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
-  console.log(currentUser);
+  console.log("Rendering App: currentUser", currentUser);
+
   return (
     <div className="container">
       <BrowserRouter basename={basename}>

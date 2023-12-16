@@ -19,16 +19,31 @@ export default function ChatRoom({ onRoomChange }) {
   const handleRoomChange = (roomId) => onRoomChange(roomId);
 
   const fetchRooms = async () => {
+    if (!currentUser) {
+      return;
+    }
+
     const res = await fetch(`${process.env.REACT_APP_API_HOST}/api/rooms/`, {
       credentials: "include",
     });
+    if (res.status === 401) {
+      return;
+    }
+
     const response = await res.json();
     setSearchRooms(response ?? []);
   };
 
   useEffect(() => {
+    // Initial fetch when the component mounts
     fetchRooms();
-    setInterval(fetchRooms, 60000);
+
+    // Set up the interval for polling
+    const intervalId = setInterval(fetchRooms, 60000);
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!currentUser === undefined) {

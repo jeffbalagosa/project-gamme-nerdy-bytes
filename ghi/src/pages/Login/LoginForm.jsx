@@ -1,20 +1,38 @@
-import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useState } from "react";
 import "./Login.css";
 import { useNavigate, Link } from "react-router-dom";
+import { useState, useContext, useCallback } from "react";
+import useToken from "@galvanize-inc/jwtdown-for-react";
+import { UserContext } from "../../useContext/UserContext";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setCurrentUser } = useContext(UserContext);
   const { login } = useToken();
   const navigate = useNavigate();
 
+  const fetchAndSetCurrentUser = useCallback(async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/token`, {
+        credentials: "include", // or other authentication headers as necessary
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCurrentUser(data.account); // Assuming the response has an 'account' object
+      }
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  }, [setCurrentUser]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(username, password);
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 500);
+    const success = await login(username, password); // Assuming 'login' returns a success status
+    if (success) {
+      fetchAndSetCurrentUser();
+    }
+    navigate("/dashboard");
+
     e.target.reset();
   };
 

@@ -11,11 +11,14 @@ const Nav = () => {
   const { setCurrentUser } = useUserContext();
 
   function handleLogout() {
+    // Call the logout function from useToken
     logout();
+
+    // Immediately clear the user context
     setCurrentUser(null);
-    setTimeout(() => {
-      navigate("/");
-    }, 250);
+
+    // Navigate to the home page without delay
+    navigate("/");
   }
 
   if (location.pathname === "/" || location.pathname === "/signup") {
