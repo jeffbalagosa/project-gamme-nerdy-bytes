@@ -8,7 +8,7 @@ const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useToken();
-  const { setCurrentUser } = useUserContext();
+  const { currentUser, setCurrentUser } = useUserContext();
 
   function handleLogout() {
     // Call the logout function from useToken
@@ -16,6 +16,7 @@ const Nav = () => {
 
     // Immediately clear the user context
     setCurrentUser(null);
+    console.log("Nav.js: handleLogout: currentUser", currentUser);
 
     // Navigate to the home page without delay
     navigate("/");

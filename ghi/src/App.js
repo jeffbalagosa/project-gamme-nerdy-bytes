@@ -18,25 +18,34 @@ import AddOption from "./pages/CreateOption/AddOption";
 import EditOption from "./pages/EditOption/EditOption";
 import ChatFlyover from "./components/shared/ChatFlyover/ChatFlyover";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import { set } from "date-fns";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
   const [currentUser, setCurrentUser] = useState(undefined);
   const { token } = useAuthContext();
+  const [key, setKey] = useState(Math.random());
 
   useEffect(() => {
+    // print token to console with descriptive message
+    console.log("App.js: useEffect: token", token);
     if (!token) {
-      return;
+      setKey(Math.random());
     }
+
     console.log("Effect Hook in App.js Triggered");
     const fetchData = async () => {
       const url = `${process.env.REACT_APP_API_HOST}/token`;
       const fetchOptions = { credentials: "include" };
       const response = await fetch(url, fetchOptions);
-      if (response.ok) {
+      // print response to console with descriptive message
+      console.log("App.js: fetchData: response", response);
+      if (!response.ok) {
+        setCurrentUser(null);
+        setKey(Math.random());
+      } else {
         const data = await response.json();
-        console.log("data", data);
         setCurrentUser(data.account);
       }
     };

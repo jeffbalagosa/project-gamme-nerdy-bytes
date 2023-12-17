@@ -9,17 +9,19 @@ import TextField from "@mui/material/TextField";
 import React, { useState, useEffect } from "react";
 import { useChatRoomContext } from "../../useContext/ChatRoomContext";
 import { useUserContext } from "../../useContext/UserContext";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 export default function ChatRoom({ onRoomChange }) {
   const [searchRooms, setSearchRooms] = useState([]);
   const [searchText, setSearchText] = useState("");
   const currentUser = useUserContext();
   const { chatRoomId } = useChatRoomContext();
+  const { token } = useAuthContext();
 
   const handleRoomChange = (roomId) => onRoomChange(roomId);
 
   const fetchRooms = async () => {
-    if (!currentUser) {
+    if (!token) {
       return;
     }
 

@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "./UserProfile.css";
 import { useUserContext } from "../../../useContext/UserContext";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function UserProfile() {
   const { currentUser } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
+  const { token } = useAuthContext();
+  const [key, setKey] = useState(Math.random());
 
   useEffect(() => {
-    console.log("Effect Hook Triggered: currentUser", currentUser);
-    if (currentUser !== undefined) {
-      setIsLoading(false);
+    // print token to console with descriptive message
+    console.log("UserProfile.js: useEffect: token", token);
+
+    if (!token) {
+      setKey(Math.random());
     }
-  }, [currentUser]);
 
-  console.log(
-    "Rendering UserProfile: isLoading",
-    isLoading,
-    "currentUser",
-    currentUser
-  );
+    if (currentUser === null) {
+      // refresh the page to clear any stale data
+      window.location.reload();
+    }
 
-  if (isLoading) {
+    console.log(
+      "UserProfile's Effect Hook Triggered: currentUser",
+      currentUser
+    );
+  }, [token, currentUser]); // Include 'currentUser' in the dependency array
+
+  console.log("Rendering UserProfile: currentUser", currentUser);
+
+  if (currentUser === null || currentUser === undefined) {
     return <h1>Loading...</h1>;
-  }
-
-  if (!currentUser) {
-    return <h1>No user logged in</h1>;
   }
 
   return (
